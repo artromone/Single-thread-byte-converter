@@ -19,7 +19,7 @@ void ByteConverter::run()
     {
       throw std::runtime_error("Invalid pointers: source_ or sink_");
     }
-    if (source_->empty())
+    if (source_->hasDataNext())
     {
       std::this_thread::yield();
       continue;

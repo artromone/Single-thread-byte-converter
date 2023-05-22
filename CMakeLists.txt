@@ -4,4 +4,4 @@ project(Test_for_Special_Technology_Center)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(Test_for_Special_Technology_Center
-        main.cpp byteconverter.h byteconverter.cpp source.cpp)
+        main.cpp byteconverter.h byteconverter.cpp testsource.h)
