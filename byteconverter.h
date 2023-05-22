@@ -4,6 +4,8 @@
 #include "sink.h"
 class ByteConverter
 {
+public:
+  explicit ByteConverter(Source *source, Sink *sink);
 private:
   Source *source_;
   Sink *sink_;

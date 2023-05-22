@@ -1,5 +1,5 @@
-#ifndef CENTER_SINK_H
-#define CENTER_SINK_H
+#ifndef SINK_H
+#define SINK_H
 class Sink
 {
 };
