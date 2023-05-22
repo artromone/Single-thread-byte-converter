@@ -16,16 +16,24 @@ namespace
     std::uint8_t type = getType(byte);
     std::uint8_t data = getData(byte);
     std::string result;
+    int intData = static_cast<int>(data);
     switch (type)
     {
       case 0b00:
-        result = std::to_string(static_cast<unsigned int>(data));
+        result = std::to_string(static_cast< unsigned int >(data));
         break;
       case 0b01:
-        result = std::to_string(static_cast<int>(data));
+        result = std::to_string(static_cast< int >(data));
         break;
       case 0b10:
-        result = static_cast<char>(0b000000 + data);
+        if (intData < 25)
+        {
+          result = std::string(1, char('a' + intData));
+        }
+        else
+        {
+          result = "Unknown type";
+        }
         break;
       default:
         result = "Unknown type";
@@ -53,12 +61,12 @@ void ByteConverter::run()
 {
   while (isRunning_)
   {
-    if (!source_->hasDataNext())
-    {
-      continue;
-    }
     try
     {
+      if (!source_->hasDataNext())
+      {
+        break;
+      }
       std::uint8_t byte = source_->read();
       std::string convertedData = convertByteToString(byte);
       sink_->writeData(convertedData);
