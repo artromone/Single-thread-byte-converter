@@ -12,5 +12,15 @@ void ByteConverter::start()
 }
 void ByteConverter::run()
 {
-  //
+  while (isRunning_)
+  {
+    if (source_->empty())
+    {
+      std::this_thread::yield();
+      continue;
+    }
+    std::uint8_t byte = source_->read();
+    //std::string convertedData = convertByteToString(byte);
+    //sink_->writeData(convertedData);
+  }
 }

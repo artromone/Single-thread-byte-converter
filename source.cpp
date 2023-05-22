@@ -1,5 +1,9 @@
-//
-// Created by Artem on 5/22/2023.
-//
-
 #include "source.h"
+bool Source::empty()
+{
+  return false;//
+}
+std::uint8_t Source::read()
+{
+  return 0;
+}
