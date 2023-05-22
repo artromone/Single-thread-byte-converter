@@ -24,3 +24,11 @@ void ByteConverter::run()
     //sink_->writeData(convertedData);
   }
 }
+void ByteConverter::stop()
+{
+  isRunning_ = false;
+  if (thread_.joinable())
+  {
+    thread_.join();
+  }
+}

@@ -14,5 +14,6 @@ private:
   bool isRunning_;
   std::thread thread_;
   void run();
+  void stop();
 };
 #endif
