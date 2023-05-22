@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "byteconverter.h"
 ByteConverter::ByteConverter(Source *source, Sink *sink):
   source_(source),
@@ -7,13 +8,17 @@ ByteConverter::ByteConverter(Source *source, Sink *sink):
 }
 void ByteConverter::start()
 {
-  thread_ = std::thread(&ByteConverter::run, this);
   isRunning_ = true;
+  thread_ = std::thread(&ByteConverter::run, this);
 }
 void ByteConverter::run()
 {
   while (isRunning_)
   {
+    if (!source_ || !sink_)
+    {
+      throw std::runtime_error("Invalid pointers: source_ or sink_");
+    }
     if (source_->empty())
     {
       std::this_thread::yield();
