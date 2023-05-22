@@ -53,20 +53,20 @@ void ByteConverter::run()
 {
   while (isRunning_)
   {
-    if (source_->hasDataNext())
+    if (!source_->hasDataNext())
     {
-      try
-      {
-        std::uint8_t byte = source_->read();
-        std::string convertedData = convertByteToString(byte);
-        sink_->writeData(convertedData);
-      }
-      catch (const std::exception &ex)
-      {
-        std::cerr << "Error occurred while data processing: " << ex.what() << "\n";
-      }
+      continue;
     }
-    break;
+    try
+    {
+      std::uint8_t byte = source_->read();
+      std::string convertedData = convertByteToString(byte);
+      sink_->writeData(convertedData);
+    }
+    catch (const std::exception &ex)
+    {
+      std::cerr << "Error occurred while data processing: " << ex.what() << "\n";
+    }
   }
 }
 void ByteConverter::stop()
