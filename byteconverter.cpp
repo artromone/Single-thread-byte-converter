@@ -38,6 +38,10 @@ ByteConverter::ByteConverter(Source *source, Sink *sink):
   sink_(sink),
   isRunning_(false)
 {
+  if (!source_ || !sink_)
+  {
+    throw std::runtime_error("Invalid pointers: source_ or sink_");
+  }
 }
 void ByteConverter::start()
 {
@@ -48,10 +52,6 @@ void ByteConverter::run()
 {
   while (isRunning_)
   {
-    if (!source_ || !sink_)
-    {
-      throw std::runtime_error("Invalid pointers: source_ or sink_");
-    }
     if (source_->hasDataNext())
     {
       std::this_thread::yield();
