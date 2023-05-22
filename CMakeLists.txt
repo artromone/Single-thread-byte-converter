@@ -1,7 +1,21 @@
 cmake_minimum_required(VERSION 3.18)
-project(Test_for_Special_Technology_Center)
+project(TestForSpecialTechnologyCenter)
 
-set(CMAKE_CXX_STANDARD 14)
+set(GTEST_DIR "lib/googletest")
 
-add_subdirectory(libs)
-add_executable(Test_for_STC main.cpp sink.h source.h byteconverter.h byteconverter.cpp examplesink.h examplesource.h byteconvertertest.h)
+add_subdirectory(${GTEST_DIR})
+
+include_directories(${GTEST_DIR}/googletest/include)
+include_directories(${GTEST_DIR}/googlemock/include)
+
+add_executable(TestForSTC test/main.cpp
+        src/byteconverter.cpp
+        src/byteconverter.h
+        src/examplesource.h
+        src/examplesink.h
+        src/sink.h
+        src/source.h)
+
+target_link_libraries(TestForSTC gtest gmock)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
