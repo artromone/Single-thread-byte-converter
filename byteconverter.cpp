@@ -1,5 +1,38 @@
 #include <stdexcept>
 #include "byteconverter.h"
+namespace
+{
+  std::uint8_t getType(std::uint8_t byte)
+  {
+    return (byte & 0b11000000) >> 6;
+  }
+  std::uint8_t getData(std::uint8_t byte)
+  {
+    return byte & 0b00111111;
+  }
+  std::string convertByteToString(std::uint8_t byte)
+  {
+    std::uint8_t type = getType(byte);
+    std::uint8_t data = getData(byte);
+    std::string result;
+    switch (type)
+    {
+      case 0b00:
+        result = std::to_string(static_cast<unsigned int>(data));
+        break;
+      case 0b01:
+        result = std::to_string(static_cast<int>(data));
+        break;
+      case 0b10:
+        result = static_cast<char>(0b000000 + data);
+        break;
+      default:
+        result = "Unknown type";
+        break;
+    }
+    return result;
+  }
+}
 ByteConverter::ByteConverter(Source *source, Sink *sink):
   source_(source),
   sink_(sink),
@@ -25,8 +58,8 @@ void ByteConverter::run()
       continue;
     }
     std::uint8_t byte = source_->read();
-    //std::string convertedData = convertByteToString(byte);
-    //sink_->writeData(convertedData);
+    std::string convertedData = convertByteToString(byte);
+    sink_->writeData(convertedData);
   }
 }
 void ByteConverter::stop()
