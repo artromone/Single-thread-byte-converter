@@ -8,12 +8,12 @@ class ByteConverter
 public:
   explicit ByteConverter(Source *source, Sink *sink);
   void start();
+  void stop();
 private:
   Source *source_;
   Sink *sink_;
   bool isRunning_;
   std::thread thread_;
   void run();
-  void stop();
 };
 #endif
