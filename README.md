@@ -1,5 +1,11 @@
 # Test-for-Special-Technology-Center
 
+<div id="user-content-toc">
+  <ul>
+    <summary><h1 style="display: inline-block;">ByteConverter Class</h1></summary>
+  </ul>
+</div>
+
 # ByteConverter Class
 Класс `ByteConverter` представляет собой конвертер байтовых данных в строковые значения, основываясь на их типе и данным.
 
