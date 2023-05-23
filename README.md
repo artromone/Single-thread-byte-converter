@@ -12,8 +12,8 @@
     <summary><h2 style="display: inline-block;">Public методы</h2></summary>
   </ul>
 </div>
-- `ByteConverter(Source *source, Sink *sink)`: Конструктор класса. Принимает указатели на объекты классов `Source` и `Sink`. Создает экземпляр класса `ByteConverter`.
 
+- `ByteConverter(Source *source, Sink *sink)`: Конструктор класса. Принимает указатели на объекты классов `Source` и `Sink`. Создает экземпляр класса `ByteConverter`.
 - `void start()`: Запускает процесс конвертации байтовых данных. Создает новый поток выполнения и вызывает метод `run()`.
 - `void stop()`: Останавливает процесс конвертации байтовых данных. Устанавливает флаг `isRunning_` в значение `false` и дожидается завершения потока выполнения.
 
