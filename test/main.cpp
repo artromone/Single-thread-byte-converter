@@ -23,8 +23,11 @@ TEST(ByteConverterTest, ConvertBytes)
   MockSink sink;
   int size = static_cast<int>(inputData.size());
   EXPECT_CALL(source, hasDataNext())
-    .Times(size)
-    .WillRepeatedly(::testing::Return(true));
+    .Times(size + 1)
+    .WillOnce(::testing::Return(true))
+    .WillOnce(::testing::Return(true))
+    .WillOnce(::testing::Return(true))
+    .WillOnce(::testing::Return(false));
   EXPECT_CALL(source, read())
     .Times(size)
     .WillOnce(::testing::Return(inputData[0]))
