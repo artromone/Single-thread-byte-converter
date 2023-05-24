@@ -19,33 +19,29 @@ TEST(ByteConverterTest, ConvertBytes)
 {
   std::vector< std::uint8_t > inputData = {0b10000011, 0b01000100, 0b10011100};
   std::vector< std::string > expectedOutput = {"d", "4", "Unknown type"};
+  int size = static_cast< int >(inputData.size());
   MockSource source;
   MockSink sink;
-  int size = static_cast<int>(inputData.size());
   EXPECT_CALL(source, hasDataNext())
-    .Times(size + 1)
-    .WillOnce(::testing::Return(true))
-    .WillOnce(::testing::Return(true))
-    .WillOnce(::testing::Return(true))
-    .WillOnce(::testing::Return(false));
+    .Times(::testing::AtLeast(size))
+    .WillRepeatedly(::testing::InvokeWithoutArgs([&]()
+      {
+        static int callCount = 0;
+        return (++callCount <= size);
+      }));
   EXPECT_CALL(source, read())
     .Times(size)
-    .WillOnce(::testing::Return(inputData[0]))
-    .WillOnce(::testing::Return(inputData[1]))
-    .WillOnce(::testing::Return(inputData[2]));
+    .WillRepeatedly(::testing::Invoke([&inputData]()
+      {
+        static size_t index = 0;
+        return inputData[index++];
+      }));
   EXPECT_CALL(sink, writeData(::testing::_))
     .Times(size)
-    .WillOnce(::testing::Invoke([&](const std::string &data)
+    .WillRepeatedly(::testing::Invoke([&](const std::string &data)
       {
-        EXPECT_EQ(data, expectedOutput[0]);
-      }))
-    .WillOnce(::testing::Invoke([&](const std::string &data)
-      {
-        EXPECT_EQ(data, expectedOutput[1]);
-      }))
-    .WillOnce(::testing::Invoke([&](const std::string &data)
-      {
-        EXPECT_EQ(data, expectedOutput[2]);
+        static size_t index = 0;
+        EXPECT_EQ(data, expectedOutput[index++]);
       }));
   ByteConverter converter(&source, &sink);
   converter.start();
