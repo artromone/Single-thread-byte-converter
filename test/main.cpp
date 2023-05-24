@@ -17,9 +17,12 @@ public:
 };
 TEST(ByteConverterTest, ConvertBytes)
 {
-  std::vector< std::uint8_t > inputData = {0b10000011, 0b01000100, 0b10011100};
-  std::vector< std::string > expectedOutput = {"d", "4", "Unknown type"};
-  int size = static_cast< int >(inputData.size());
+  std::vector<std::pair<std::string, std::uint8_t>> testData = {
+    {"d", 0b10000011},
+    {"4", 0b01000100},
+    {"Unknown type", 0b10011100}
+  };
+  int size = static_cast< int >(testData.size());
   MockSource source;
   MockSink sink;
   EXPECT_CALL(source, hasDataNext())
@@ -31,17 +34,17 @@ TEST(ByteConverterTest, ConvertBytes)
       }));
   EXPECT_CALL(source, read())
     .Times(size)
-    .WillRepeatedly(::testing::Invoke([&inputData]()
+    .WillRepeatedly(::testing::Invoke([&testData]()
       {
         static size_t index = 0;
-        return inputData[index++];
+        return testData[index++].second;
       }));
   EXPECT_CALL(sink, writeData(::testing::_))
     .Times(size)
     .WillRepeatedly(::testing::Invoke([&](const std::string &data)
       {
         static size_t index = 0;
-        EXPECT_EQ(data, expectedOutput[index++]);
+        EXPECT_EQ(data, testData[index++].first);
       }));
   ByteConverter converter(&source, &sink);
   converter.start();
