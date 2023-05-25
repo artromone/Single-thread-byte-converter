@@ -70,6 +70,7 @@ void ByteConverter::run()
       std::uint8_t byte = source_->read();
       std::string convertedData = convertByteToString(byte);
       sink_->writeData(convertedData);
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     catch (const std::exception &ex)
     {
