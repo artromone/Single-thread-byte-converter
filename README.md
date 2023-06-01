@@ -1,57 +1,57 @@
-# Test-for-Special-Technology-Center
+# Single thread byte converter
 
 <div id="user-content-toc">
   <ul>
     <summary><h1 style="display: inline-block;">ByteConverter Class</h1></summary>
   </ul>
 </div>
-Класс `ByteConverter` представляет собой конвертер байтовых данных в строковые значения, основываясь на их типе и данным.
+The `ByteConverter` class represents a converter for byte data into string values based on their type and data.
 
 <div id="user-content-toc">
   <ul>
-    <summary><h2 style="display: inline-block;">Public методы</h2></summary>
+    <summary><h2 style="display: inline-block;">Public Methods</h2></summary>
   </ul>
 </div>
 
-- `ByteConverter(Source *source, Sink *sink)`: Конструктор класса. Принимает указатели на объекты классов `Source` и `Sink`. Создает экземпляр класса `ByteConverter`.
-- `void start()`: Запускает процесс конвертации байтовых данных. Создает новый поток выполнения и вызывает метод `run()`.
-- `void stop()`: Останавливает процесс конвертации байтовых данных. Устанавливает флаг `isRunning_` в значение `false` и дожидается завершения потока выполнения.
+- `ByteConverter(Source *source, Sink *sink)`: Class constructor. Takes pointers to `Source` and `Sink` objects and creates an instance of the `ByteConverter` class.
+- `void start()`: Starts the process of byte data conversion. Creates a new execution thread and calls the `run()` method.
+- `void stop()`: Stops the process of byte data conversion. Sets the `isRunning_` flag to `false` and waits for the execution thread to finish.
 
 <div id="user-content-toc">
   <ul>
-    <summary><h2 style="display: inline-block;">Private методы</h2></summary>
+    <summary><h2 style="display: inline-block;">Private Methods</h2></summary>
   </ul>
 </div>
 
-- `void run()`: Метод, выполняющий процесс конвертации байтовых данных. В цикле проверяет наличие данных в источнике, читает очередной байт, конвертирует его в строковое значение и записывает в `Sink. В случае ошибки выводит сообщение об ошибке в стандартный поток ошибок.
+- `void run()`: Method that performs the byte data conversion process. In a loop, it checks for data availability in the source, reads the next byte, converts it into a string value, and writes it to the `Sink`. In case of an error, it outputs an error message to the standard error stream.
 
 <div id="user-content-toc">
   <ul>
     <summary><h1 style="display: inline-block;">Sink Class</h1></summary>
   </ul>
 </div>
-Класс `Sink` представляет интерфейс для записи данных.
+The `Sink` class represents an interface for writing data.
 
 <div id="user-content-toc">
   <ul>
-    <summary><h2 style="display: inline-block;">Public методы</h2></summary>
+    <summary><h2 style="display: inline-block;">Public Methods</h2></summary>
   </ul>
 </div>
 
-- `virtual void writeData(const std::string &data) = 0`: Виртуальный метод для записи данных. Принимает строку `data`, которую необходимо записать.
+- `virtual void writeData(const std::string &data) = 0`: Virtual method for writing data. Takes a string `data` to be written.
 
 <div id="user-content-toc">
   <ul>
     <summary><h1 style="display: inline-block;">Source Class</h1></summary>
   </ul>
 </div>
-Класс `Source` представляет интерфейс для получения данных.
+The `Source` class represents an interface for retrieving data.
 
 <div id="user-content-toc">
   <ul>
-    <summary><h2 style="display: inline-block;">Public методы</h2></summary>
+    <summary><h2 style="display: inline-block;">Public Methods</h2></summary>
   </ul>
 </div>
 
-- `virtual bool hasDataNext() const = 0`: Виртуальный метод для проверки наличия следующих данных. Возвращает `true`, если есть данные для чтения, и `false` в противном случае.
-- `virtual std::uint8_t read() = 0`: Виртуальный метод для чтения очередного байта данных. Возвращает прочитанный байт.
+- `virtual bool hasDataNext() const = 0`: Virtual method for checking if there is more data available. Returns `true` if there is data to read, and `false` otherwise.
+- `virtual std::uint8_t read() = 0`: Virtual method for reading the next byte of data. Returns the read byte.
